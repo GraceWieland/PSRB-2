@@ -1,0 +1,154 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace GoinPostal
+{
+    class ctystate
+    {
+           private Dictionary<string, int> breaks;//header, length
+           
+           public ctystate ()
+           {
+                  breaks = new Dictionary <string, int>();
+                  breaks.Add("CopyrightDetailCode",1);
+                  breaks.Add("Filler_1", 5);
+                  breaks.Add("Copyright Statement", 12);
+                  breaks.Add("Filler_2", 1);
+                  breaks.Add("File Version Month", 2);
+                  breaks.Add("Dash", 2);
+                  breaks.Add("File Version Year", 2);
+                  breaks.Add("Filler_3", 1);
+                  breaks.Add("Copyright Owner", 4);
+                  breaks.Add("Filler_4", 1);
+                  breaks.Add("Volume Sequence Number", 3);
+                  breaks.Add("Filler_5", 96);
+                  breaks.Add("Copyright Detail Code_A", 1);
+                  breaks.Add("ZipCode_A", 5);
+                  breaks.Add("Street Pre Drctn Abbrev", 2);
+                  breaks.Add("Street Name", 28);
+                  breaks.Add("Street Suffix Abbrev", 4);
+                  breaks.Add("Street Post Drctn Abbrev", 2);
+                  breaks.Add("Street Name_1", 28);
+                  breaks.Add("Street Suffix Abbrev_1", 4);
+                  breaks.Add("Alias Type Code", 1);
+                  breaks.Add("Alias Century", 2);
+                  breaks.Add("Alias Year", 2);
+                  breaks.Add("Alias Month", 2);
+                  breaks.Add("Alias Day", 2);
+                  breaks.Add("Delivery Address Low No", 10);
+                  breaks.Add("Delivery Address High No", 10);
+                  breaks.Add("Alias Range Odd Even Code",1);
+                  breaks.Add("Filler_6", 21);
+                  breaks.Add("Copyright Detail Code_Z", 1);
+                  breaks.Add("Zip Code_Z", 5);
+                  breaks.Add("Carrier Route ID", 4);
+                  breaks.Add("Zip Code_Z1", 5);
+                  breaks.Add("Carrier Route ID_1", 4);
+                  breaks.Add("Transaction Century", 2);
+                  breaks.Add("Transaction Year", 2);
+                  breaks.Add("Transaction Month", 2);
+                  breaks.Add("Transaction Day", 2);
+                  breaks.Add("Filler_7", 102); 
+                  breaks.Add("Copyright Detail Code_S", 1) ;
+                  breaks.Add("Zip Code_S", 5);
+                  breaks.Add("Seasonal Delivery Jan Ind", 1);
+                  breaks.Add("Seasonal Delivery Feb Ind", 1);
+                  breaks.Add("Seasonal Delivery Mar Ind", 1);
+                  breaks.Add("Seasonal Delivery Apr Ind", 1);
+                  breaks.Add("Seasonal Delivery May Ind", 1);
+                  breaks.Add("Seasonal Delivery Jun Ind", 1);
+                  breaks.Add("Seasonal Delivery Jul Ind", 1);
+                  breaks.Add("Seasonal Delivery Aug Ind", 1);
+                  breaks.Add("Seasonal Delviery Sep Ind", 1);
+                  breaks.Add("Seasonal Delivery Oct Ind", 1);
+                  breaks.Add("Seasonal Delivery Nov Ind", 1);
+                  breaks.Add("Seasonal Delivery Dec Ind", 1);
+                  breaks.Add("Filler_8", 111);
+                  breaks.Add("Copyright Detail Code_PO", 1);
+                  breaks.Add("Zip Code_PO", 5);
+                  breaks.Add("Filler_9", 123);
+                  breaks.Add("Copyright Detail Code_D", 1);
+                  breaks.Add("Zip Code_D", 5);
+                  breaks.Add("City State Key", 6); 
+                  breaks.Add("Zip Classification Code", 1);
+                  breaks.Add("City State Name", 28);
+                  breaks.Add("City State Name Abbrev", 13);
+                  breaks.Add("CtySt Name Facility Code", 1);
+                  breaks.Add("CtySt Mailing Name Ind", 1);
+                  breaks.Add("Prefd Last Line Ctyst Key", 6);
+                  breaks.Add("Prefd Last Line Ctyst Nam", 28);
+                  breaks.Add("City Delv Ind", 1);
+                  breaks.Add("Carr Rte Rate Sort Ind, 1);
+                  breaks.Add("Unique Zip Name Inc", 1);
+                  breaks.Add("Finance No", 6);
+                  breaks.Add("State Abbrev", 2);
+                  breaks.Add("County No", 3);
+                  breaks.Add("County Name", 25);
+        }
+        public void ConvertToCSV(string inputstring, string outputDestination) 
+        {
+                Int32 vals = inputstring.Length - 309 
+                Int32 rowsEst = vals / 309;
+                rowEst = rowsEst / 10;
+                Int32 index = 309; 
+                using (System.IO.StreamWriter sw = new System.IO.StreamWriter(new System.IO.StreamWriter(new System.IO.FileStream(outputDestination,System.IO.FileMode.CreateNew)))
+                {
+                      string header = "";
+                      foreach (KeyValuePair<string, int> kvp in breaks)
+                      { 
+                               header += kvp.Key +",";
+                      }
+                      header.TrimEnd(new char[] { ',' });
+                      sw.WriteLine(header);
+                      int counter = 0;
+                      int groupsComplete = 0;
+                      Console.Write("Percent Complete: 0 ");
+                      while (vals > 0)
+                      {
+                             List <string> r = new List<string>();
+                             if ("d".Equals(inputstring.Substring(index, 1).ToLower()))
+                             {
+                                     index += 1;
+                                     vals -= 1;
+                             }
+                             else
+                             {
+                                     return;
+                             }
+                             foreach (KeyValuePair<string, int> kvp in breaks)
+                             {
+                                     if (kvp.Value.Equals("ZipCode"))
+                                     {
+                                             r.Add("'"+inputstring.Substring(index, kvp.Value));
+                                     }
+                                     else
+                                     {
+                                             r.Add(inputstring.Substring(index, kvp.Value));
+                                     }
+                                     index += kvp.Value;
+                                     vals -= kvp.Value;
+                              }
+                              row rr = new row(r);
+                              se.Write(rr.ToCSV());
+                              counter += 1;
+                              if (counter % rowEst == 0)
+                              {
+                                    groupsComplete += 1;
+                                    Console.Write(groupsComplete * 10) + " " );
+                              }
+                   }
+                   Console.WriteLine("!");
+         }  
+  }
+                                 
+                                         
+                   
+                      
+                  
+                
+                
+             
+              
